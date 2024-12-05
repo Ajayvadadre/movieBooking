@@ -5,8 +5,9 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'HomeController::index');
-// $routes->get('/movieDescription/(:any)', 'HomeController::movieDescription/$1');
+$routes->get('/', 'HomeController::getData');
 $routes->get('/movieDescriptionview', 'HomeController::movieDescriptionview');
-$routes->post('/movieDescription', 'HomeController::movieDescription');
-#1b1b1b 
+$routes->get('/movieDescription/getData/(:any)', 'HomeController::getDataById/$1  ');
+$routes->post('/addData', 'HomeController::addData');
+// $routes->get('/movieDescription/(:any)', 'HomeController::movieDescription/$1');
+// $routes->get('/movieDescription', 'HomeController::movieDescription');

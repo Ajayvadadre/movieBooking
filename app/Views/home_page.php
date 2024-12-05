@@ -7,6 +7,7 @@
     <title>bookthatshow</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <style>
         body {
@@ -14,24 +15,25 @@
             background-color: #1b1b1b;
         }
 
-        .jumbotron {
-            background-image: url('https://w0.peakpx.com/wallpaper/127/1000/HD-wallpaper-avengers-poster-hero-endgame-marvel-film-poster-art.jpg');
+        /* .jumbotron {
+            background-image: url('https://res.cloudinary.com/df0ifelxk/image/upload/v1733394153/peakpx_hqdzx6.jpg');
             background-size: cover;
             background-position: center;
-            height: 80vh;
+            height: 25vh;
             color: #fff;
             text-align: center;
-        }
+        } */
 
         .jumbotron h1 {
             font-size: 48px;
             font-weight: bold;
             /* margin-top: 10rem; */
-            
+
         }
 
         .movie-card {
             /* height: 300px; */
+            /* #1b1b1b  */
             width: fit-content;
             margin-bottom: 20px;
             border-radius: 10px;
@@ -41,7 +43,7 @@
         .movie-card img {
             width: 300px;
             height: 300px;
-            object-fit:cover;
+            object-fit: cover;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
         }
@@ -73,128 +75,186 @@
             margin-bottom: 20px;
         }
 
-        .jumbotron .text{
-            height:fit-content;
-            margin-top: 25rem;
-            margin-left:7.5rem;
+        .main-head .text {
+            height: fit-content;
+            margin-top: 30rem;
+            margin-left: 5.5rem;
             text-align: start;
             align-items: end;
         }
-        .container1{
-            padding:0px
+
+        .container1 {
+            padding: 0px
+        }
+
+        .addMovieModal {
+            background-color: #1b1b1b;
+        }
+
+        .main-head {
+            height: 80vh;
+            color: white;
+        }
+
+        .logo {
+            position: absolute;
+            z-index: 10;
+            margin-left: 6rem;
+            margin-top: 2.7rem;
         }
     </style>
+
 </head>
+<!-- <script>$(document).ready(function() {
+    $('#carouselExampleSlidesOnly').carousel({
+        interval: 4000
+    });
+});</script> -->
 
 <body>
-    <div class="jumbotron d-flex align-content-end">
+
+    <div id="carouselExampleSlidesOnly " class="carousel slide " data-bs-transition="fade" data-bs-ride="carousel" data-bs-duration="2000" data-bs-interval="3000">
+
+        <div class="carousel-inner main-head">
+            <h4 class=" position-absolute logo">book<span class="text-danger">that</span>show</h4>
+            <div class="carousel-item active">
+                <img src="https://res.cloudinary.com/df0ifelxk/image/upload/v1733394153/peakpx_hqdzx6.jpg" class="d-block w-100 " alt="...">
+            </div>
+            <div class="carousel-item ">
+                <img src="https://res.cloudinary.com/df0ifelxk/image/upload/v1733394484/peakpx2_yg6hko.jpg" class="d-block w-100 " alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="https://res.cloudinary.com/df0ifelxk/image/upload/v1733394483/peakpx3_fe2oio.jpg" class="d-block w-100 " alt="...">
+            </div>
+            <div class="text col-md-4">
+                <h1>Movie Hub</h1>
+                <p>Explore the latest movies and TV shows</p>
+                <a href="/" class="btn btn-primary ">Book movie</a>
+                <button class="btn btn-primary ml-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add movie</button>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="jumbotron d-flex align-content-end">
         <div class="text col-md-4">
             <h1>Movie Hub</h1>
             <p>Explore the latest movies and TV shows</p>
-            <a href="#" class="btn btn-primary">Book tickets</a>
+            <a href="/" class="btn btn-primary">Book movie</a>
+            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add movie</button>
         </div>
-    </div>
-    <div class="container">
+    </div> -->
+    <div class="container pl-5 ">
         <div class="heading">
             <h2>Trending now</h2>
         </div>
         <div class="row">
-            <div class="col-md-4">
-                <div class="movie-card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSm1-tPfKWNdNIOjdPqfxOgqHvRThcLZtcX3w&s" alt="Movie Poster">
-                    <div class="card-body ">
-                        <h5 class="card-title">Furiosa</h5>
-                        <p class="card-text">Movie Description</p>
-                        <a href="/movieDescription" onclick="sendData" class="btn btn-primary">Book Now</a>
+            <?php foreach ($mongoData as $data) { ?>
+                <div class="col-md-4 mt-4">
+                    <form action="/movieDescription/getData/<?= $data['_id']?>" method="get">
+                    <div class="movie-card">
+                        <img src="<?= $data['image'] ?>" alt="Movie Poster">
+                        <div class="card-body">
+                            <h5 class="card-title text-capitalize"><?= $data['name'] ?></h5>
+                            <p class="card-text text-capitalize mb-1 "><?= $data['director'] ?></p>
+                            <p class="card-text text-capitalize mb-4 "><?= $data['genre'] ?></p>
+                            <button class="btn btn-primary" type="submit">Book Now</button>
+                        </div>
                     </div>
+                    </form>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="movie-card">
-                    <img id="movieImg" src="https://i.pinimg.com/736x/87/d9/da/87d9da9ea9fe3d630bf686c70e45feb0.jpg" alt="Movie Poster">
-                    <div class="card-body">
-                        <h5 id="movieTitle" class="card-title">Fall Guy</h5>
-                        <p id="movieDescription" class="card-text">Movie Description</p>
-                        <form action="/movieDescriptionview" method="get">
-                            <button onclick="sendData()" type="submit" class="btn btn-primary"> Book now </button>
-                        </form>
-                    </div>
+            <?php } ?>  
+        </div>
+    </div>
+
+    <!-- add movie modal  -->
+    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Movie details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="movie-card">
-                    <img src="https://i2.wp.com/www.shutterstock.com/blog/wp-content/uploads/sites/5/2024/03/Civil-War.jpg?ssl=1" alt="Movie Poster">
-                    <div class="card-body">
-                        <h5 class="card-title">Civil War</h5>
-                        <p class="card-text">Movie Description</p>
-                        <a href="/movieDescription" class="btn btn-primary">Book Now</a>
+                <form action="/addData" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+
+                        <div class="div-name text-capitalize">
+                            <label for="image">Image:</label>
+                            <input name="image" type="file">
+                        </div>
+                        <div class="div-name text-capitalize">
+                            <label for="name">movie name:</label>
+                            <input name="name" type="text">
+                        </div>
+                        <div class="div-genre text-capitalize">
+                            <label for="genre">genre:</label>
+                            <input name="genre" type="text">
+                        </div>
+                        <div class="div-director text-capitalize">
+                            <label for="director">director:</label>
+                            <input name="director" type="text">
+                        </div>
+                        <div class="div-date_created text-capitalize">
+                            <label for="date_created">date created:</label>
+                            <input name="date_created" type="date">
+                        </div>
                     </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal addMovieModal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Movie details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="movie-card">
-                    <img src="https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:l-image,i-discovery-catalog@@icons@@like_202006280402.png,lx-24,ly-617,w-29,l-end:l-text,ie-MS45TSBMaWtlcw%3D%3D,fs-29,co-FFFFFF,ly-612,lx-70,pa-8_0_0_0,l-end/et00356724-cyrbaqmhav-portrait.jpg" alt="Movie Poster">
-                    <div class="card-body">
-                        <h5 class="card-title">Civil War</h5>
-                        <p class="card-text">Movie Description</p>
-                        <a href="/movieDescription" class="btn btn-primary">Book Now </a>
-                    </div>
+                <div class="modal-body">
+                    Hide this modal and show the first with the button below.
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="movie-card">
-                    <img src="https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:l-image,i-discovery-catalog@@icons@@star-icon-202203010609.png,lx-24,ly-615,w-29,l-end:l-text,ie-Ni4yLzEwICAyMDUuNUsgVm90ZXM%3D,fs-29,co-FFFFFF,ly-612,lx-70,pa-8_0_0_0,l-end/et00353996-cpbypudxwl-portrait.jpg" alt="Movie Poster">
-                    <div class="card-body">
-                        <h5 class="card-title">Civil War</h5>
-                        <p class="card-text">Movie Description</p>
-                        <a href="/movieDescription" class="btn btn-primary">Book Now</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="movie-card">
-                    <img src="https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC:w-400.0,h-660.0,cm-pad_resize,bg-000000,fo-top:l-image,i-discovery-catalog@@icons@@star-icon-202203010609.png,lx-24,ly-615,w-29,l-end:l-text,ie-OC40LzEwICA1LjlLIFZvdGVz,fs-29,co-FFFFFF,ly-612,lx-70,pa-8_0_0_0,l-end/et00387901-zzezpljyvq-portrait.jpg" alt="Movie Poster">
-                    <div class="card-body">
-                        <h5 class="card-title">Civil War</h5>
-                        <p class="card-text">Movie Description</p>
-                        <a href="/movieDescription" class="btn btn-primary">Book Now</a>
-                    </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script>
         // Get the value of the h5 tag
         //    h5Value =  document.getElementById('movieTitle').textContent;
 
-        function sendData() {
+        // function sendData() {
 
-            var title = document.getElementById('movieTitle').textContent;
-            var img = document.getElementById('movieImg')
-            var imgUrl = img.getAttribute('src');
-            var description = document.getElementById('movieDescription').textContent;
-            // console.log(h5Value)                
-            // var url = '/movieDescription?title=' + encodeURIComponent(h5Value);
-            // window.location.href = url;
-            //     var h5Value = $('movieTitle').text();
-            $.ajax({
-                url: '/movieDescription',
-                method: 'POST',
-                data: {
-                    title: title,
-                    imgUrl: imgUrl,
-                    description: description
-                },
-                success: function(data) {
-                    console.log(data)
-                    // console.log(typeof data)
-                    // window.location.href = '/movieDescription';
-                }
-            });
-        }
+        //     var title = document.getElementById('movieTitle').textContent;
+        //     var img = document.getElementById('movieImg')
+        //     var imgUrl = img.getAttribute('src');
+        //     var description = document.getElementById('movieDescription').textContent;
+        //     // console.log(h5Value)                
+        //     // var url = '/movieDescription?title=' + encodeURIComponent(h5Value);
+        //     // window.location.href = url;
+        //     //     var h5Value = $('movieTitle').text();
+        //     $.ajax({
+        //         url: '/movieDescription',
+        //         method: 'POST',
+        //         data: {
+        //             title: title,
+        //             imgUrl: imgUrl,
+        //             description: description
+        //         },
+        //         success: function(data) {
+        //             console.log(data)
+        //             // console.log(typeof data)
+        //             // window.location.href = '/movieDescription';
+        //         }
+        //     });
+        // }
     </script>
 </body>
 
