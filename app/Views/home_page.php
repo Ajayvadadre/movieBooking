@@ -31,6 +31,11 @@
 
         }
 
+        /* .modal-content {
+            background-color: #1b1b1b;
+            color: white;
+        } */
+
         .movie-card {
             /* height: 300px; */
             /* #1b1b1b  */
@@ -131,6 +136,7 @@
                 <p>Explore the latest movies and TV shows</p>
                 <a href="/" class="btn btn-primary ">Book movie</a>
                 <button class="btn btn-primary ml-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add movie</button>
+          
             </div>
         </div>
     </div>
@@ -149,19 +155,20 @@
         <div class="row">
             <?php foreach ($mongoData as $data) { ?>
                 <div class="col-md-4 mt-4">
-                    <form action="/movieDescription/getData/<?= $data['_id']?>" method="get">
-                    <div class="movie-card">
-                        <img src="<?= $data['image'] ?>" alt="Movie Poster">
-                        <div class="card-body">
-                            <h5 class="card-title text-capitalize"><?= $data['name'] ?></h5>
-                            <p class="card-text text-capitalize mb-1 "><?= $data['director'] ?></p>
-                            <p class="card-text text-capitalize mb-4 "><?= $data['genre'] ?></p>
-                            <button class="btn btn-primary" type="submit">Book Now</button>
+                    <form action="/movieDescription/deleteData/<?= $data['_id'] ?>" method="post">
+                        <div class="movie-card">
+                            <img src="<?= $data['image'] ?>" alt="Movie Poster">
+                            <div class="card-body">
+                                <h5 class="card-title text-capitalize"><?= $data['name'] ?></h5>
+                                <p class="card-text text-capitalize mb-1 "><?= $data['director'] ?></p>
+                                <p class="card-text text-capitalize mb-4 "><?= $data['genre'] ?></p>
+                                <a class="btn btn-primary" href="/movieDescription/getData/<?= $data['_id'] ?>" type="submit">Book Now</a>
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </div>
                         </div>
-                    </div>
                     </form>
                 </div>
-            <?php } ?>  
+            <?php } ?>
         </div>
     </div>
 
@@ -176,23 +183,23 @@
                 <form action="/addData" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
 
-                        <div class="div-name text-capitalize">
+                        <div class="div-name text-capitalize d-flex flex-column">
                             <label for="image">Image:</label>
                             <input name="image" type="file">
                         </div>
-                        <div class="div-name text-capitalize">
+                        <div class="div-name text-capitalize d-flex flex-column">
                             <label for="name">movie name:</label>
                             <input name="name" type="text">
                         </div>
-                        <div class="div-genre text-capitalize">
+                        <div class="div-genre text-capitalize d-flex flex-column">
                             <label for="genre">genre:</label>
                             <input name="genre" type="text">
                         </div>
-                        <div class="div-director text-capitalize">
+                        <div class="div-director text-capitalize d-flex flex-column">
                             <label for="director">director:</label>
                             <input name="director" type="text">
                         </div>
-                        <div class="div-date_created text-capitalize">
+                        <div class="div-date_created text-capitalize d-flex flex-column">
                             <label for="date_created">date created:</label>
                             <input name="date_created" type="date">
                         </div>
@@ -204,57 +211,11 @@
             </div>
         </div>
     </div>
-    <div class="modal addMovieModal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Movie details</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Hide this modal and show the first with the button below.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
+   
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script>
-        // Get the value of the h5 tag
-        //    h5Value =  document.getElementById('movieTitle').textContent;
-
-        // function sendData() {
-
-        //     var title = document.getElementById('movieTitle').textContent;
-        //     var img = document.getElementById('movieImg')
-        //     var imgUrl = img.getAttribute('src');
-        //     var description = document.getElementById('movieDescription').textContent;
-        //     // console.log(h5Value)                
-        //     // var url = '/movieDescription?title=' + encodeURIComponent(h5Value);
-        //     // window.location.href = url;
-        //     //     var h5Value = $('movieTitle').text();
-        //     $.ajax({
-        //         url: '/movieDescription',
-        //         method: 'POST',
-        //         data: {
-        //             title: title,
-        //             imgUrl: imgUrl,
-        //             description: description
-        //         },
-        //         success: function(data) {
-        //             console.log(data)
-        //             // console.log(typeof data)
-        //             // window.location.href = '/movieDescription';
-        //         }
-        //     });
-        // }
     </script>
 </body>
 
