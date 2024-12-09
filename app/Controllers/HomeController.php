@@ -20,11 +20,12 @@ class HomeController extends BaseController
 
     public function __construct()
     {
-        $this->seatModel = new SeatModel();
+        $this->seatModel = new SeatModel($this->collection);
         $mongodb = new Client("mongodb+srv://ajayvadadre:ajayvadadre1234@nodemongocluster.1y5lp.mongodb.net/");
         $db = $mongodb->selectDatabase("test");
         $this->collection = $db->selectCollection("moviebookings");
     }
+
     public function index(): string
     {
         return view('home_page');
@@ -184,22 +185,33 @@ class HomeController extends BaseController
         return view('booktickets_page', ['bookedSeats' => $bookedSeats]);
     }
 
-    public function storeSeats() {}
-
     public function displayTicket($id)
     {
-        $client = service('curlrequest', [
-            'baseURI' => "http://localhost:5000/home/getDataById/" . $id,
+        $client1 = service('curlrequest', [
+            'baseURI' => "http://localhost:5000/home/" ,
         ]);
-        $response = $client->get("");
-        $body = $response->getBody();
-        $data = json_decode($body, true);
-        return view('displayticket_page', ['data' => $data]);
+        $response1 = $client1->get("getDataById/".$id);
+        $body1 = $response1->getBody();
+        $data1 = json_decode($body1, true);
+        print_r($data1);
+        $client2 = service('curlrequest', [
+            'baseURI' => "http://localhost:5000/home/" 
+        ]);
+        $response2 = $client2->get("getSeatDataById/".$id);
+        $body2 = $response2->getBody();
+        $data2 = json_decode($body2, true);
+        print_r($data2);
+
+        // $combinedData = array_merge($data1, $data2);
+        // print_r($combinedData);
+// 
+        // return view('displayticket_page', ['data' => $combinedData]);
     }
 
     public function book()
     {
         $seats = $this->request->getJSON(true);
+        // var_dump($seats);
 
         if (empty($seats['seats'])) {
             return $this->response->setJSON([
@@ -221,7 +233,6 @@ class HomeController extends BaseController
                 'message' => $e->getMessage()
             ]);
         }
-
     }
 
     public function status()

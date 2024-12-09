@@ -10,12 +10,13 @@ class SeatModel extends Model
     protected $mongoClient;
     protected $collection;
 
-    public function __construct()
+    public function __construct($collection)
     {
         parent::__construct();
         
         // Initialize MongoDB connection
         $this->mongoClient = new Client("mongodb+srv://ajayvadadre:ajayvadadre1234@nodemongocluster.1y5lp.mongodb.net/");
+        // $this->collection = $collection;
         $this->collection = $this->mongoClient->test->seats;
     }
 
