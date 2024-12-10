@@ -82,7 +82,7 @@ class AuthController extends BaseController
             "password" => $password,
         ];
         
-        $url = "http://localhost:5000/home/registerData";
+        $url = "http://localhost:5000/home/authentication";
         $ch = curl_init();
     
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -96,7 +96,10 @@ class AuthController extends BaseController
     
         if ($response === 'true' || $response === '1') {
             return redirect()->to('/');
-        } else {
+        // var_dump($response);
+
+        } else { 
+            // var_dump('error');
             return redirect()->to('/login')->with('error', 'Invalid credentials');
         }
     }
