@@ -20,14 +20,14 @@
         }
 
         .movie-poster {
-            width: 200px;
-            height: 300px;
+            width: 250px;
+            height: 400px;
             object-fit: cover;
             border-radius: 10px;
         }
 
         .movie-description {
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .suggested-movies {
@@ -49,6 +49,17 @@
         .book-tickets-btn {
             margin-top: 20px;
         }
+
+        .movie-description-p {
+            font-size: 14px;
+            padding: 0;
+            margin: 0;
+
+        }
+
+        #movieName {
+            color: white;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -57,67 +68,31 @@
 <body>
     <div class="container ">
         <?php if ($data) { ?>
-            <div class="row movie-details">
-                <div class="col-md-4">
+            <div class="row movie-details  d-flex justify-content-center gap-5 ">
+                <div class="col-md-3">
                     <img src="<?= $data['image'] ?>" alt="Movie Poster" class="movie-poster">
                 </div>
-                <div class="col-md-8">
-                    <h2><?= $data['name'] ?></h2>
-                    <p class="movie-description"><?= $data['genre'] ?></p>
-                    <p class="movie-description"><?= $data['director'] ?></p>
-                    <a href="/bookTickets/<?= $data['_id'] ?>" class="btn btn-primary book-tickets-btn">Book Tickets</a>
-                    <button type="button" class="btn btn-danger book-tickets-btn ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Edit movie</button>
+                <div class="col-md-6 d-flex flex-column ">
+                    <h2 id="movieName"><?= $data['name'] ?></h2>
+                    <div class="description-top pl-1 d-flex flex-column gap-1 mt-1">
+                        <p class="movie-description-p"><?= $data['genre'] ?></p>
+                        <p class="movie-description-p"><?= $data['director'] ?></p>
+                    </div>
+                    <p id="desc" class="movie-description  pl-1"><?= $data['description'] ?></p>
+                    <div class="description-button pl-1 ">
+                        <a href="/bookSeats/<?= $data['_id'] ?>" class="btn btn-primary book-tickets-btn">Book Tickets</a>
+                        <button type="button" class="btn btn-danger book-tickets-btn ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Edit movie</button>
+                    </div>
                 </div>
             </div>
         <?php } else { ?>
             <h2> No such movie Found</h2> <?php } ?>
 
-        <!-- <div class="suggested-movies">
-            <h2>Suggested Movies</h2>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="https://picsum.photos/200/301" alt="Movie Poster">
-                        <div class="card-body">
-                            <h5 class="card-title"></h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="https://picsum.photos/200/302" alt="Movie Poster">
-                        <div class="card-body">
-                            <h5 class="card-title">Movie Title</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="https://picsum.photos/200/303" alt="Movie Poster">
-                        <div class="card-body">
-                            <h5 class="card-title">Movie Title</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <img src="https://picsum.photos/200/304" alt="Movie Poster">
-                        <div class="card-body">
-                            <h5 class="card-title">Movie Title</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
 
-        
-        
+
+
         <!-- Button trigger modal -->
-        
+
         <!-- Edit Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -127,7 +102,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/updateData/<?= $data['_id']?>" method="post"  enctype="multipart/form-data" >
+                        <form action="/updateData/<?= $data['_id'] ?>" method="post" enctype="multipart/form-data">
                             <div class="mb-3 div-name text-capitalize d-flex flex-column">
                                 <label class="col-form-label" for="image">Image:</label>
                                 <input name="image" type="file">
@@ -154,7 +129,7 @@
                             </div> -->
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit"  class="btn btn-primary">Update data</button>
+                                <button type="submit" class="btn btn-primary">Update data</button>
                             </div>
                         </form>
                     </div>

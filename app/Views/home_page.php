@@ -37,7 +37,7 @@
         } */
 
         .movie-card {
-            /* height: 300px; */
+            /* height: 00px; */
             /* #1b1b1b  */
             width: fit-content;
             margin-bottom: 20px;
@@ -47,7 +47,7 @@
 
         .movie-card img {
             width: 300px;
-            height: 300px;
+            /* height: 300px; */
             object-fit: cover;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
@@ -107,6 +107,30 @@
             margin-left: 6rem;
             margin-top: 2.7rem;
         }
+        .bookNowBtn{
+            background-color: white;
+        }
+        .bookNowBtn:hover{
+            background-color: #1b1b1b;
+            color: white;
+            border: 1px solid #666 ;
+        }
+        .deleteBtn{
+            /* background-color: #666; */
+            color: white;
+            border: 1px solid #666 ;
+        }
+        .deleteBtn:hover{
+            border: 1px solid #666 ;
+            background-color: #faf7f7;
+            color: #161616;
+        }
+
+        /* .Datainput{
+            background-color: #868d9d;
+            border-radius: 5px;
+            color: #1b1b1b;
+        } */
     </style>
 
 </head>
@@ -133,10 +157,10 @@
             </div>
             <div class="text col-md-4">
                 <h1>Movie Hub</h1>
-                <p>Explore the latest movies and TV shows</p>
+                <p>Watch the latest movies in theaters nearby</p>
                 <a href="/" class="btn btn-primary ">Book movie</a>
                 <button class="btn btn-primary ml-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add movie</button>
-          
+
             </div>
         </div>
     </div>
@@ -152,24 +176,27 @@
         <div class="heading">
             <h2>Trending now</h2>
         </div>
-        <div class="row">
+        <div class="row ">
             <?php foreach ($mongoData as $data) { ?>
-                <div class="col-md-4 mt-4">
+                <div class="col-md-4 mt-4 ">
                     <form action="/movieDescription/deleteData/<?= $data['_id'] ?>" method="post">
-                        <div class="movie-card">
+                        <div class="movie-card ">
                             <img src="<?= $data['image'] ?>" alt="Movie Poster">
                             <div class="card-body">
                                 <h5 class="card-title text-capitalize"><?= $data['name'] ?></h5>
                                 <p class="card-text text-capitalize mb-1 "><?= $data['director'] ?></p>
                                 <p class="card-text text-capitalize mb-4 "><?= $data['genre'] ?></p>
-                                <a class="btn btn-primary" href="/movieDescription/getData/<?= $data['_id'] ?>" type="submit">Book Now</a>
-                                <button class="btn btn-danger" type="submit">Delete</button>
+                                <a class="btn  bookNowBtn" href="/movieDescription/getData/<?= $data['_id'] ?>" type="submit">Book Now</a>
+                                <button class="btn  deleteBtn" type="submit">Delete</button>
                             </div>
                         </div>
                     </form>
                 </div>
+                
             <?php } ?>
         </div>
+
+
     </div>
 
     <!-- add movie modal  -->
@@ -181,27 +208,31 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="/addData" method="post" enctype="multipart/form-data">
-                    <div class="modal-body">
+                    <div class="modal-body d-flex flex-column gap-4">
 
-                        <div class="div-name text-capitalize d-flex flex-column">
+                        <div class="div-name text-capitalize font-weight-bold d-flex flex-column">
                             <label for="image">Image:</label>
                             <input name="image" type="file">
                         </div>
-                        <div class="div-name text-capitalize d-flex flex-column">
+                        <div class="div-name text-capitalize font-weight-bold d-flex flex-column">
                             <label for="name">movie name:</label>
-                            <input name="name" type="text">
+                            <input class=" Datainput " name="name" type="text">
                         </div>
-                        <div class="div-genre text-capitalize d-flex flex-column">
+                        <div class="div-genre text-capitalize font-weight-bold d-flex flex-column">
                             <label for="genre">genre:</label>
-                            <input name="genre" type="text">
+                            <input class="Datainput" name="genre" type="text">
                         </div>
-                        <div class="div-director text-capitalize d-flex flex-column">
+                        <div class="div-description text-capitalize font-weight-bold d-flex flex-column">
+                            <label for="description">description:</label>
+                            <textarea class="Datainput" name="description" id="description"></textarea>
+                        </div>
+                        <div class="div-director text-capitalize font-weight-bold d-flex flex-column">
                             <label for="director">director:</label>
-                            <input name="director" type="text">
+                            <input class="Datainput" name="director" type="text">
                         </div>
-                        <div class="div-date_created text-capitalize d-flex flex-column">
+                        <div class="div-date_created text-capitalize font-weight-bold d-flex flex-column">
                             <label for="date_created">date created:</label>
-                            <input name="date_created" type="date">
+                            <input class="Datainput " name="date_created" type="date">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -211,7 +242,7 @@
             </div>
         </div>
     </div>
-   
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>

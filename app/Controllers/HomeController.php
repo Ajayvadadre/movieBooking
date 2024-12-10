@@ -54,6 +54,7 @@ class HomeController extends BaseController
         $director = $this->request->getVar('director');
         $date_created = $this->request->getVar('date_created');
         $image = $this->request->getFile('image');
+        $description = $this->request->getVar('description');
 
         $apiSecret = env('CLOUDINARY_API_SECRET');
         $apiKey = env('CLOUDINARY_API_KEY');
@@ -79,6 +80,7 @@ class HomeController extends BaseController
             "genre" => $genre,
             "date_created" => $date_created,
             "director" => $director,
+            "description" => $description,
             "image" => $mongoImageUrl ?? null
         ];
         $url = "http://localhost:5000/home/createData";
@@ -169,7 +171,7 @@ class HomeController extends BaseController
     }
 
 
-    public function bookTickets($id)
+    public function bookSeats($id)
     {
 
         // $client = service('curlrequest', [
@@ -182,7 +184,7 @@ class HomeController extends BaseController
 
         // Get booked seats from the model
         $bookedSeats = $this->seatModel->getBookedSeats();
-        return view('booktickets_page', ['bookedSeats' => $bookedSeats]);
+        return view('bookseats_page', ['bookedSeats' => $bookedSeats]);
     }
 
     public function displayTicket($id)
@@ -193,19 +195,19 @@ class HomeController extends BaseController
         $response1 = $client1->get("getDataById/".$id);
         $body1 = $response1->getBody();
         $data1 = json_decode($body1, true);
-        print_r($data1);
+        // print_r($data1);
         $client2 = service('curlrequest', [
             'baseURI' => "http://localhost:5000/home/" 
         ]);
         $response2 = $client2->get("getSeatDataById/".$id);
         $body2 = $response2->getBody();
         $data2 = json_decode($body2, true);
-        print_r($data2);
+        // print_r($data2);
 
-        // $combinedData = array_merge($data1, $data2);
+        $combinedData = array_merge($data1, $data2);
         // print_r($combinedData);
 // 
-        // return view('displayticket_page', ['data' => $combinedData]);
+        return view('displayticket_page', ['data' => $combinedData]);
     }
 
     public function book()
@@ -243,4 +245,6 @@ class HomeController extends BaseController
             'bookedSeats' => $bookedSeats
         ]);
     }
+    
+
 }
