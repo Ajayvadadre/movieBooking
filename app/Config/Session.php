@@ -41,7 +41,16 @@ class Session extends BaseConfig
      * Setting to 0 (zero) means expire when the browser is closed.
      */
     public int $expiration = 7200;
-
+    public $session = [
+        'driver' => 'redis',
+        'redis' => [
+            'host'     => '127.0.0.1',
+            'password' => null,
+            'port'     => 6379,
+            'timeout'  => 0,
+            'database' => 0,
+        ],
+    ];
     /**
      * --------------------------------------------------------------------------
      * Session Save Path
@@ -124,4 +133,98 @@ class Session extends BaseConfig
      * seconds.
      */
     public int $lockMaxRetries = 300;
+
+
+
+
+
+
+
+    // public $driver = 'Redis';
+
+    public $lifetime = 7200;
+
+    // public $cookieName = 'ci_session';
+
+    public $cookieDomain = '';
+
+    public $cookiePath = '/';
+
+    public $cookieSecure = false;
+
+    public $sidRegex = '[0-9a-v]{32}';
+
+    // public $matchIP = false;
+
+    // public $savePath = '/tmp';
+
+    public $handler = 'CodeIgniter\Session\Handlers\FileHandler';
+
+    public $redisConfig = [
+        'host'     => '127.0.0.1',
+        'password' => null,
+        'port'     => 6379,
+        'timeout'  => 0.0,
+        'database' => 0,
+    ];
+
+    public $gcProbability = 5;
+
+    public $gcDivisor = 100;
+
+    public $cookieSameSite = 'Lax';
+
+    public $cookieSamesiteNoneSecure = false;
+
+    public $useCookies = true;
+
+    public $timeRegular = 300;
+
+    public $timeLong = 3600;
+
+    public $timeOnline = 1200;
+
+    public $timeOffline = 1800;
+
+    public $timeExpired = 31536000;
+
+    public $timeLastModified = 31536000;
+
+    public $timeLastModifiedThreshold = 60;
+
+    public $timeNow = 7200;
+
+    public $tokenRandomBytes = 16;
+
+    public $tokenLength = 32;
+
+    public $tokenLengthBase32Variant = 'RFC4648';
+
+    public $tokenLengthBase64Variant = 'MIME';
+
+    public $tokenAlphabet = '2345679ACDEFGHJKLMNPQRTUVWXYZ';
+
+    public $tokenAlphabetCaseSensitive = false;
+
+    public $tokenAlphabetNumeric = '0123456789';
+
+    public $tokenAlphabetLowercase = 'abcdefghijklmnopqrstuvwxyz';
+
+    public $tokenAlphabetUppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    public $tokenAlphabetSpecial = '!@#$%^&*()-_[]{}';
+
+    public $tokenAlphabetWhitespace = ' \t\n\r\0\x0B';
+
+    public $tokenAlphabetPunctuation = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~';
+
+    public $tokenAlphabetHex = '0123456789abcdef';
+
+    public $tokenAlphabetBase32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+
+    public $tokenAlphabetBase32Hex = '0123456789ABCDEFGHIJKLMNOPQRSTUV';
+
+    public $tokenAlphabetBase64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+    public $tokenAlphabetBase64Url = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 }

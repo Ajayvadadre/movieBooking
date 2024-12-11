@@ -1,7 +1,7 @@
 <?php
 
 namespace Config;
-
+$autoload['libraries'] = array('session');
 use CodeIgniter\Config\AutoloadConfig;
 
 /**

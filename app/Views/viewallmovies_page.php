@@ -206,8 +206,7 @@
                     <button class="btn btn-primary ml-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add movie</button>
                 <?php } else { ?> <h2 class=""></h2> <?php } ?>
                 <?php if ($rData->isAdmin) { ?>
-                    <a href="/viewAllMovies" class="btn btn-danger ml-1">View all movies</a>
-                    <!-- <button class="btn btn-danger ml-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal2">View all movies</button> -->
+                    <button class="btn btn-danger ml-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal2">View all movies</button>
                 <?php } else { ?> <h2 class=""></h2> <?php } ?>
             </div>
         </div>

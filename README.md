@@ -13,3 +13,8 @@
     //2- Creating payment process
     //3- Minor bugs solve
     //4- Clear UI design
+
+
+    //11-12-2024
+    //1- session creationg using redis while login and logout 
+    //2- 2nd half started implementing showing different views to admin and user 

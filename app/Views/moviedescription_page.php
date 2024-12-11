@@ -66,6 +66,18 @@
 </head>
 
 <body>
+    <?php
+    $redis = new \Predis\Client([
+        'scheme' => 'tcp',
+        'host' => '127.0.0.1',
+        'port' => 6379,
+        'timeout' => 30,
+        'read_timeout' => 30,
+        'retry_interval' => 100
+    ]);
+    $redisSession = $redis->get('session:' . session_id());
+    $rData = json_decode($redisSession);
+    ?>
     <div class="container ">
         <?php if ($data) { ?>
             <div class="row movie-details  d-flex justify-content-center gap-5 ">
@@ -81,7 +93,9 @@
                     <p id="desc" class="movie-description  pl-1"><?= $data['description'] ?></p>
                     <div class="description-button pl-1 ">
                         <a href="/bookSeats/<?= $data['_id'] ?>" class="btn btn-primary book-tickets-btn">Book Tickets</a>
-                        <button type="button" class="btn btn-danger book-tickets-btn ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Edit movie</button>
+                        <?php if ($rData->isAdmin) { ?> 
+                            <button type="button" class="btn btn-danger book-tickets-btn ml-2" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Edit movie</button>
+                        <?php } else { ?> <h2 class=""></h2> <?php } ?>
                     </div>
                 </div>
             </div>
@@ -130,6 +144,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Update data</button>
+
                             </div>
                         </form>
                     </div>
