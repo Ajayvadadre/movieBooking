@@ -80,6 +80,7 @@
     ?>
     <div class="container ">
         <?php if ($data) { ?>
+            <h2 class=" position-absolute"><span class="mr-4 text-decoration-none"><a class="text-decoration-none text-light" href="/">&#8592;</a></span> All movies</h2>
             <div class="row movie-details  d-flex justify-content-center gap-5 ">
                 <div class="col-md-3">
                     <img src="<?= $data['image'] ?>" alt="Movie Poster" class="movie-poster">

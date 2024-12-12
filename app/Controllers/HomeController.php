@@ -71,6 +71,14 @@ class HomeController extends BaseController
             return view('home_page', ['mongoData' => $mongoData]);
         }
     }
+    public function getDataAllMovies(){
+        $query = $this->collection->find();
+        $mongoData = [];
+        foreach($query as $data){
+            $mongoData[] = $data;
+        };
+        return view('viewallmovies_page',['mongoData' => $mongoData]);
+    }
 
 
     public function viewAllMovies() {
@@ -132,8 +140,6 @@ class HomeController extends BaseController
         ]);
         $imageUrl['url'] = $upload['url'];
         $mongoImageUrl = $upload['url'];
-        // var_dump($imageUrl);
-
         $data = [
             "name" => $name,
             "genre" => $genre,
@@ -229,7 +235,6 @@ class HomeController extends BaseController
         return redirect()->to(base_url("/"));
     }
 
-
     public function bookSeats($id)
     {
 
@@ -304,4 +309,5 @@ class HomeController extends BaseController
             'bookedSeats' => $bookedSeats
         ]);
     }
+
 }

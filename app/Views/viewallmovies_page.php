@@ -169,51 +169,11 @@
     $redisSession = $redis->get('session:' . session_id());
     $rData = json_decode($redisSession);
     ?>
-    <div id="carouselExampleSlidesOnly " class="carousel slide " data-bs-transition="fade" data-bs-ride="carousel" data-bs-duration="2000" data-bs-interval="3000">
 
-        <div class="carousel-inner main-head">
-            <div class="header-top">
-                <h4 class=" logo">book<span class="text-danger">that</span>show</h4>
-                <div class="dropdown logout ml-3 ">
-                    <button class=" border-0 text-light " style="height: 80px; background-color:transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0,0,256,256">
-                            <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
-                                <g transform="scale(8.53333,8.53333)">
-                                    <path d="M3,7c-0.36064,-0.0051 -0.69608,0.18438 -0.87789,0.49587c-0.18181,0.3115 -0.18181,0.69676 0,1.00825c0.18181,0.3115 0.51725,0.50097 0.87789,0.49587h24c0.36064,0.0051 0.69608,-0.18438 0.87789,-0.49587c0.18181,-0.3115 0.18181,-0.69676 0,-1.00825c-0.18181,-0.3115 -0.51725,-0.50097 -0.87789,-0.49587zM3,14c-0.36064,-0.0051 -0.69608,0.18438 -0.87789,0.49587c-0.18181,0.3115 -0.18181,0.69676 0,1.00825c0.18181,0.3115 0.51725,0.50097 0.87789,0.49587h24c0.36064,0.0051 0.69608,-0.18438 0.87789,-0.49587c0.18181,-0.3115 0.18181,-0.69676 0,-1.00825c-0.18181,-0.3115 -0.51725,-0.50097 -0.87789,-0.49587zM3,21c-0.36064,-0.0051 -0.69608,0.18438 -0.87789,0.49587c-0.18181,0.3115 -0.18181,0.69676 0,1.00825c0.18181,0.3115 0.51725,0.50097 0.87789,0.49587h24c0.36064,0.0051 0.69608,-0.18438 0.87789,-0.49587c0.18181,-0.3115 0.18181,-0.69676 0,-1.00825c-0.18181,-0.3115 -0.51725,-0.50097 -0.87789,-0.49587z"></path>
-                                </g>
-                            </g>
-                        </svg>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="carousel-item active">
-                <img src="https://res.cloudinary.com/df0ifelxk/image/upload/v1733394153/peakpx_hqdzx6.jpg" class="d-block w-100 " alt="...">
-            </div>
-            <div class="carousel-item ">
-                <img src="https://res.cloudinary.com/df0ifelxk/image/upload/v1733394484/peakpx2_yg6hko.jpg" class="d-block w-100 " alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="https://res.cloudinary.com/df0ifelxk/image/upload/v1733394483/peakpx3_fe2oio.jpg" class="d-block w-100 " alt="...">
-            </div>
-            <div class="text col-md-4">
-                <h1>Movie Hub</h1>
-                <p>Watch the latest movies in theaters nearby</p>
-                <a href="/" class="btn btn-primary ">Book movie</a>
-                <?php if ($rData->isAdmin) { ?>
-                    <button class="btn btn-primary ml-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add movie</button>
-                <?php } else { ?> <h2 class=""></h2> <?php } ?>
-                <?php if ($rData->isAdmin) { ?>
-                    <button class="btn btn-danger ml-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal2">View all movies</button>
-                <?php } else { ?> <h2 class=""></h2> <?php } ?>
-            </div>
-        </div>
-    </div>
     <div class="container trending-list " style="padding-left:50px;">
         <div class="heading">
-            <h2>Trending now</h2>
+            <h2></h2>
+            <h2><span class="mr-4 text-decoration-none"><a class="text-decoration-none text-light" href="/">&#8592;</a></span> All movies</h2>
         </div>
         <div class="row ">
             <?php foreach ($mongoData as $data) { ?>

@@ -23,19 +23,17 @@ class AuthController extends BaseController
         ]);
         $this->session = \Config\Services::session();
     }
-    public function index(): string
+    public function index()
     {
-        $redis = new \Predis\Client([
-            'scheme' => 'tcp',
-            'host' => '127.0.0.1',
-            'port' => 6379,
-            'timeout' => 30,           // Increased timeout
-            'read_timeout' => 30,      // Read timeout
-            'retry_interval' => 100    // Retry interval in milliseconds
-        ]);
-        $data = $redis->get('name');
-        if ($data) {
-            return view('/');
+
+        // $data = $redis->get('name');
+        $alreadyExists = $this->redis->get('session:' . session_id());
+
+        if ($alreadyExists) {
+            // return view('home_page');
+            return redirect()->to('/');
+            // return redirect()->to('/login');
+
         } else {
             return view('authentication/login_page');
         }
@@ -50,13 +48,28 @@ class AuthController extends BaseController
     public function logOut()
     {
         // Clear Redis session
+        // $this->session->set($sessionData);
         $this->redis->del('session:' . session_id());
-
-        // Clear CodeIgniter session
         $this->session->destroy();
 
+        // $logOut = ["OutTime"=>date("Y-m-d H:i:s")];
+        // $url = "http://localhost:5000/home/addLogTime";
+      
+        // $ch = curl_init();
+        // curl_setopt_array($ch, [
+        //     CURLOPT_URL => $url,
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_POST => true,
+        //     CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+        //     CURLOPT_POSTFIELDS => json_encode($logOut),
+        //     CURLOPT_SSL_VERIFYPEER => false
+        // ]);
+
+        // $response = curl_exec($ch);
+        // $error = curl_error($ch);
+        // curl_close($ch);
+
         return redirect()->to('/login');
-           
     }
 
 
@@ -83,12 +96,15 @@ class AuthController extends BaseController
         $name = $this->request->getVar('name');
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
+        $time_created = getdate();
+
         $hashPassword =  password_hash($password, PASSWORD_DEFAULT);
 
         $data = [
             "name" => $name,
             "email" => $email,
             "password" => $password,
+            "time_created" => $time_created,
             "hashPassword" => $hashPassword
         ];
 
@@ -112,18 +128,17 @@ class AuthController extends BaseController
         $name = $this->request->getVar('name');
         $password = $this->request->getVar('password');
 
+
         if (empty($name) || empty($password)) {
             return redirect()->to('/');
-
-            // return redirect()->to('/login')
-            // ->with('error', 'Username and password are required');
         }
 
         if ($name === 'admin' && $password === '1234') {
             $sessionData = [
                 'name' => $name,
                 'isAdmin' => true,
-                'isLoggedIn' => true
+                'isLoggedIn' => true,
+                'InTime' => date("Y-m-d H:i:s")
             ];
 
             $this->redis->setex('session:' . session_id(), 86400, json_encode($sessionData));
@@ -137,7 +152,7 @@ class AuthController extends BaseController
             $sessionData = [
                 'name' => $name,
                 'isAdmin' => false,
-                'isLoggedIn' => true
+                'isLoggedIn' =>  date("Y-m-d H:i:s")
             ];
 
             $this->redis->setex('session:' . session_id(), 86400, json_encode($sessionData));
@@ -151,11 +166,13 @@ class AuthController extends BaseController
     {
         $name = $this->request->getVar('name');
         $password = $this->request->getVar('password');
-
+        $logout  = '2024-12-12 12:27:23';
         $url = "http://localhost:5000/home/authentication";
         $data = [
             "name" => $name,
-            "password" => $password
+            "password" => $password,
+            "loginTime"=>  date("Y-m-d H:i:s"),
+            "logOutTime"=>    $logout
         ];
 
         $ch = curl_init();
@@ -173,54 +190,25 @@ class AuthController extends BaseController
         curl_close($ch);
 
 
+        $url2 = "http://localhost:5000/home/addLogTime";
+
+        $ch2 = curl_init();
+        curl_setopt_array($ch2, [
+            CURLOPT_URL => $url2,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_SSL_VERIFYPEER => false
+        ]);
+
+        $response2 = curl_exec($ch2);
+        $error = curl_error($ch2);
+        curl_close($ch2);
+
+        var_dump($ch2);
+
 
         return $response;
     }
 }
-
-
-//     public function authenticate()
-//     {
-//         $name = $this->request->getVar('name');
-//         $password = $this->request->getVar('password');
-//         $redis = new \Predis\Client([
-//             'scheme' => 'tcp',
-//             'host' => '127.0.0.1',
-//             'port' => 6379,
-//             'timeout' => 30,           // Increased timeout
-//             'read_timeout' => 30,      // Read timeout
-//             'retry_interval' => 100    // Retry interval in milliseconds
-//         ]);
-//         $data = [
-//             "name" => $name,
-//             "password" => $password,
-//         ];
-
-//         if ($name == 'admin' && $password == '1234') {
-//             $redis->set('adminData', json_encode($data));
-//             $redis->set('isAdmin', 'true');
-//             return redirect()->to('/');
-//         } else {
-//         $url = "http://localhost:5000/home/authentication";
-//         $ch = curl_init();
-
-//         curl_setopt($ch, CURLOPT_URL, $url);
-//         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//         curl_setopt($ch, CURLOPT_POST, true);
-//         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-//         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-//         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-//         $response = curl_exec($ch);
-//         curl_close($ch);
-
-//         if ($response === 'true' || $response === '1') {
-//             $redis->set('userData', json_encode($data));
-//             $redis->set('isAdmin', 'false'); 
-//             return redirect()->to('/');
-//         } else {
-//             // return redirect()->to('/');
-//             return redirect()->to('/login')->with('error', 'Invalid credentials');
-//         }
-//         }
-//     }
-// }

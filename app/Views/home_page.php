@@ -185,7 +185,13 @@
                         </svg>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        <li class=""><a class="dropdown-item btn btn-primary" href="/logout">Logout</a></li>
+                        <?php if ($rData->isAdmin) { ?>
+                            <button class="btn btn-primary ml-1 mt-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add movie</button>
+                        <?php } else { ?> <h2 class=""></h2> <?php } ?>
+                        <?php if ($rData->isAdmin) { ?>
+                            <a href="/viewAllMovies" class="btn btn-danger ml-1 mt-2">View all movies</a>
+                        <?php } else { ?> <h2 class=""></h2> <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -202,13 +208,7 @@
                 <h1>Movie Hub</h1>
                 <p>Watch the latest movies in theaters nearby</p>
                 <a href="/" class="btn btn-primary ">Book movie</a>
-                <?php if ($rData->isAdmin) { ?>
-                    <button class="btn btn-primary ml-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add movie</button>
-                <?php } else { ?> <h2 class=""></h2> <?php } ?>
-                <?php if ($rData->isAdmin) { ?>
-                    <a href="/viewAllMovies" class="btn btn-danger ml-1">View all movies</a>
-                    <!-- <button class="btn btn-danger ml-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal2">View all movies</button> -->
-                <?php } else { ?> <h2 class=""></h2> <?php } ?>
+
             </div>
         </div>
     </div>
