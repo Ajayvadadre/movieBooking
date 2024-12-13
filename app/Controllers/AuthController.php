@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Cloudinary\Cloudinary;
 use MongoDB\Client;
 use CodeIgniter\Session\Session;
+use PHPUnit\Framework\Attributes\ExcludeStaticPropertyFromBackup;
 
 class AuthController extends BaseController
 {
@@ -49,26 +50,30 @@ class AuthController extends BaseController
     {
         // Clear Redis session
         // $this->session->set($sessionData);
+        $id = $this->session->get('id');
+        $logOutTime = [
+            'id' => $id,
+            "OutTime" => date("Y-m-d H:i:s")
+        ];
+        $url = "http://localhost:5000/home/updateLogData";
+
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+            CURLOPT_POSTFIELDS => json_encode($logOutTime),
+            CURLOPT_SSL_VERIFYPEER => false
+        ]);
+
+        $response = curl_exec($ch);
+        $error = curl_error($ch);
+        var_dump($response);
+        var_dump($error);
+        curl_close($ch);
         $this->redis->del('session:' . session_id());
         $this->session->destroy();
-
-        // $logOut = ["OutTime"=>date("Y-m-d H:i:s")];
-        // $url = "http://localhost:5000/home/addLogTime";
-      
-        // $ch = curl_init();
-        // curl_setopt_array($ch, [
-        //     CURLOPT_URL => $url,
-        //     CURLOPT_RETURNTRANSFER => true,
-        //     CURLOPT_POST => true,
-        //     CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
-        //     CURLOPT_POSTFIELDS => json_encode($logOut),
-        //     CURLOPT_SSL_VERIFYPEER => false
-        // ]);
-
-        // $response = curl_exec($ch);
-        // $error = curl_error($ch);
-        // curl_close($ch);
-
         return redirect()->to('/login');
     }
 
@@ -123,6 +128,7 @@ class AuthController extends BaseController
         return redirect()->to("/login");
     }
 
+
     public function authenticate()
     {
         $name = $this->request->getVar('name');
@@ -130,7 +136,7 @@ class AuthController extends BaseController
 
 
         if (empty($name) || empty($password)) {
-            return redirect()->to('/');
+            return redirect()->to('/login');
         }
 
         if ($name === 'admin' && $password === '1234') {
@@ -145,20 +151,8 @@ class AuthController extends BaseController
             $this->session->set($sessionData);
             return redirect()->to('/');
         }
-        //
-        $response = $this->authenticateWithAPI($name, $password);
-
-        if ($response === 'true' || $response === '1') {
-            $sessionData = [
-                'name' => $name,
-                'isAdmin' => false,
-                'isLoggedIn' =>  date("Y-m-d H:i:s")
-            ];
-
-            $this->redis->setex('session:' . session_id(), 86400, json_encode($sessionData));
-            $this->session->set($sessionData);
-            return redirect()->to('/');
-        }
+        
+        $this->authenticateWithAPI($name, $password);
         return redirect()->to('/login');
     }
 
@@ -166,13 +160,12 @@ class AuthController extends BaseController
     {
         $name = $this->request->getVar('name');
         $password = $this->request->getVar('password');
-        $logout  = '2024-12-12 12:27:23';
         $url = "http://localhost:5000/home/authentication";
         $data = [
             "name" => $name,
             "password" => $password,
-            "loginTime"=>  date("Y-m-d H:i:s"),
-            "logOutTime"=>    $logout
+            "loginTime" =>  date("Y-m-d H:i:s"),
+            "logOutTime" =>    ' '
         ];
 
         $ch = curl_init();
@@ -189,7 +182,7 @@ class AuthController extends BaseController
         $error = curl_error($ch);
         curl_close($ch);
 
-
+        //-- Saving/Creating InLog time-----------
         $url2 = "http://localhost:5000/home/addLogTime";
 
         $ch2 = curl_init();
@@ -203,12 +196,37 @@ class AuthController extends BaseController
         ]);
 
         $response2 = curl_exec($ch2);
+        $mainData = json_decode($response2);
         $error = curl_error($ch2);
+
+        $id = $mainData->_id;
         curl_close($ch2);
 
-        var_dump($ch2);
+        // Checking if password is correct or not 
+        if ($response === 'true' || $response === '1') {
+            $sessionData = [
+                'id' => $id,
+                'name' => $name,
+                'isAdmin' => false,
+                'isLoggedIn' =>  date("Y-m-d H:i:s")
+            ];
 
+            $this->redis->setex('session:' . session_id(), 86400, json_encode($sessionData));
+            $this->session->set($sessionData);
+            return redirect()->to('/');
+        } else {
+            return redirect()->to('/login');
+        }
+    }
 
-        return $response;
+    public function viewLogs(){
+        $client = service('curlrequest', [
+            'baseURI' => "http://localhost:5000/home/getLogData/" ,
+        ]);
+        $response = $client->get("");
+        $body = $response->getBody();
+        $data = json_decode($body, true);
+
+        return view('viewlogs_page',['mongoData'=> $data]);
     }
 }

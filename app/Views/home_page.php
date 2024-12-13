@@ -185,13 +185,16 @@
                         </svg>
                     </button>
                     <ul class="dropdown-menu">
-                        <li class=""><a class="dropdown-item btn btn-primary" href="/logout">Logout</a></li>
                         <?php if ($rData->isAdmin) { ?>
-                            <button class="btn btn-primary ml-1 mt-1" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add movie</button>
+                            <button class="btn  " data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Add movie</button>
                         <?php } else { ?> <h2 class=""></h2> <?php } ?>
                         <?php if ($rData->isAdmin) { ?>
-                            <a href="/viewAllMovies" class="btn btn-danger ml-1 mt-2">View all movies</a>
+                            <a href="/viewLogs" class="btn ">View logs</a>
                         <?php } else { ?> <h2 class=""></h2> <?php } ?>
+                        <?php if ($rData->isAdmin) { ?>
+                            <a href="/viewAllMovies" class="btn  ">View all movies</a>
+                        <?php } else { ?> <h2 class=""></h2> <?php } ?>
+                        <li class="d-flex align-items-center"><a class=" btn " href="/logout">Logout</a> <img width="20" height="20" class="" src="https://img.icons8.com/ios/50/exit--v1.png" alt="exit--v1" /></li>
                     </ul>
                 </div>
             </div>

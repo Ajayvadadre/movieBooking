@@ -10,6 +10,7 @@ $routes->get('/login', 'AuthController::index');
 $routes->get('/logout', 'AuthController::logOut');
 $routes->get('/register', 'AuthController::register');
 $routes->get('/viewAllMovies', 'HomeController::getDataAllMovies');
+$routes->get('/viewLogs', 'AuthController::viewLogs');
 // $routes->post('/login/authenticate', 'AuthController::authenticate');
 $routes->post('/register/saveData', 'AuthController::saveData');
 $routes->get('/movieDescriptionview', 'HomeController::movieDescriptionview');
